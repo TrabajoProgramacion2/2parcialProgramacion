@@ -1,0 +1,31 @@
+{
+    "usuarios": [
+        {
+            "usuario": "vladimir",
+            "password": "1234",
+            "estadisticas": {
+                "partidas_jugadas": 0,
+                "victorias": 0,
+                "derrotas": 0
+            }
+        },
+        {
+            "usuario": "brisa",
+            "password": "1234",
+            "estadisticas": {
+                "partidas_jugadas": 0,
+                "victorias": 0,
+                "derrotas": 0
+            }
+        },
+        {
+            "usuario": "jordy",
+            "password": "1234",
+            "estadisticas": {
+                "partidas_jugadas": 0,
+                "victorias": 0,
+                "derrotas": 0
+            }
+        }
+    ]
+}
