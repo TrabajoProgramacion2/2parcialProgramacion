@@ -1,4 +1,4 @@
-from datos import *
+from cargar_partidas import cargar_partidas_csv
 from ingresos import *
 from usuarios import *
 import time
@@ -44,6 +44,7 @@ def calcular_tiempo(limite: int, inicio):
 
 
 def jugar_niveles():
+    niveles = cargar_partidas_csv()
     nivel = 1
 
     while nivel < 6:
