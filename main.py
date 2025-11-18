@@ -1,9 +1,33 @@
-from usuarios import crear_archivo, login_usuario, registrar_usuario
+from funciones import *
+from ingresos import *
 
-crear_archivo()
-registrar_usuario("vladimir", "1234")
-registrar_usuario("brisa", "1234")
-login_usuario("vladimir", "1234")
-login_usuario("brisa", "1234")
-registrar_usuario("jordy", "1234")
-login_usuario("jordy", "2222")
+
+
+while True:
+    print("===================================")
+    print("🎮  BIENVENIDO AL JUEGO DE PALABRAS  🎮")
+    print("===================================\n")
+    print("🔹 Reglas:")
+    print(" - Inicie sesion o registrese Para poder jugar.")
+    print(" - Armá palabras con las letras que se te muestren.")
+    print(" - Cuanto más larga la palabra, más puntos sumás.")
+    print(" - Escribí 'salir' en cualquier momento para terminar la ronda.")
+    print("-----------------------------------\n")
+
+
+    ingreso = pedir_entero("\n1_Iniciar Sesion\n2_registrarse\n3 jugar \n4 salir. Ingrese una opcion: ", "ERROR. Opcion invalida: ", 1, 4)
+    match ingreso:
+        case 1:
+            iniciar_sesion()
+            
+            
+            #usuario_actual = iniciar_sesion(usuarios)
+        case 2:
+            registrarse()
+            #usuarios = registrarse(usuarios)
+        case 3:
+            jugar_niveles()
+            pass
+        case 4:
+            print("Saliendo del juego...")
+            break
