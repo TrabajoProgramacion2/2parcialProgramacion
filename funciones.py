@@ -26,21 +26,15 @@ def registrarse():
 
 
 def cargar_puntuacion(ingreso: str) -> int:
-    puntos = len(ingreso)
-    return puntos
+    return len(ingreso)
 
 
 def mostrar_letras(letras: list) -> str:
-    texto = ""
-    for letra in letras:
-        texto += letra + " "
-    return texto
+    return " ".join(letras)
 
 
 def calcular_tiempo(limite: int, inicio):
-    tiempo_transcurrido = time.time() - inicio
-    tiempo_restante = limite - tiempo_transcurrido
-    return tiempo_restante
+    return limite - (time.time() - inicio)
 
 
 def jugar_niveles():
@@ -48,7 +42,7 @@ def jugar_niveles():
     nivel = 1
 
     while nivel < 6:
-        print(f"\nNIVEL -> {nivel:25}")
+        print(f"\n🔵 NIVEL {nivel}")
 
         nivel_pasado = jugar_partidas(nivel, niveles)
 
@@ -58,20 +52,21 @@ def jugar_niveles():
             print("\nSaliste del juego")
             break
 
+
 def jugar_partidas(nivel: int, niveles: dict):
     partida = 0
     errores_nivel = 0
     puntos_nivel = 0
     reinicio = 0
 
-    categorias_mezcladas = niveles[nivel][:]
-    random.shuffle(categorias_mezcladas)
+    rondas_mezcladas = niveles[nivel][:]
+    random.shuffle(rondas_mezcladas)
 
     while partida < 3:
 
         print(f"\n--------------Partida {partida + 1}--------------")
 
-        lista_retornada = jugar_ronda_con_categoria(categorias_mezcladas[partida])
+        lista_retornada = jugar_ronda(rondas_mezcladas[partida])
 
         salir = lista_retornada[0]
         errores_nivel += lista_retornada[1]
@@ -87,7 +82,7 @@ def jugar_partidas(nivel: int, niveles: dict):
             print("\n⏳ Se acabó el tiempo. Nivel reiniciado.")
             continue
 
-        partida += 1 
+        partida += 1
 
         if reinicio == 3:
             print("\n💀 Perdió las 3 vidas del nivel.")
@@ -100,7 +95,7 @@ def jugar_partidas(nivel: int, niveles: dict):
             return True
 
 
-def jugar_ronda_con_categoria(datos_partida):
+def jugar_ronda(datos_partida):
     lista_datos_retornados = []
     tiempo_acabado = False
     puntos_totales = 0
@@ -108,7 +103,6 @@ def jugar_ronda_con_categoria(datos_partida):
     salir = False
     errores = 0
 
-    categoria = datos_partida["categoria"]
     letras = datos_partida["letras"]
     palabras_validas = datos_partida["palabras"]
 
@@ -121,12 +115,11 @@ def jugar_ronda_con_categoria(datos_partida):
             break
 
         cadena_letras = mostrar_letras(letras)
-        print(f"\nCategoria: {categoria}")
-        print(f"Letras: {cadena_letras:>20}\n")
+        print(f"\nLetras disponibles: {cadena_letras}\n")
 
         palabra_ingresada = pedir_cadena(
             "Ingrese una palabra:",
-            "Error. Palabra fuera de rango(3 a 6 caracteres): ",
+            "Error. Palabra fuera de rango (3 a 6 caracteres): ",
             6,
             3,
         )
@@ -138,7 +131,7 @@ def jugar_ronda_con_categoria(datos_partida):
             break
 
         if palabra_ingresada in lista_ingresos:
-            print("Esa palabra ya fue ingresada.")
+            print("⚠ Esa palabra ya fue ingresada.")
             continue
 
         if palabra_ingresada in palabras_validas:
@@ -150,7 +143,7 @@ def jugar_ronda_con_categoria(datos_partida):
             print("✖ Palabra incorrecta!")
 
         if set(lista_ingresos) >= set(palabras_validas):
-            print("🎉 Usted ganó la ronda.")
+            print("🎉 ¡Usted ganó la ronda!")
             break
 
     print("-" * 40)
