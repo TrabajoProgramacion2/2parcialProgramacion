@@ -1,6 +1,6 @@
 from funciones import *
 from ingresos import *
-
+from usuarios import *
 
 
 while True:
@@ -14,17 +14,21 @@ while True:
     print(" - Escribí 'salir' en cualquier momento para terminar la ronda.")
     print("-----------------------------------\n")
 
-
-    ingreso = pedir_entero("\n1_Iniciar Sesion\n2_registrarse\n3 jugar \n4 salir. Ingrese una opcion: ", "ERROR. Opcion invalida: ", 1, 4)
+    ingreso = pedir_entero(
+        "\n1_Iniciar Sesion\n2_registrarse\n3_jugar \n4_salir. \nIngrese una opcion: ",
+        "ERROR. Opcion invalida: ",
+        1,
+        4,
+    )
     match ingreso:
         case 1:
-            iniciar_sesion()
-            
-            
-            #usuario_actual = iniciar_sesion(usuarios)
+            usuario = input("Ingrese su usuario: ")
+            password = input("Ingrese su contraseña: ")
+            login_usuario(usuario, password)
         case 2:
-            registrarse()
-            #usuarios = registrarse(usuarios)
+            usuario = input("Ingrese su usuario: ")
+            password = input("Ingrese su contraseña: ")
+            registrar_usuario(usuario, password)
         case 3:
             jugar_niveles()
             pass

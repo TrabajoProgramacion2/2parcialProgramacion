@@ -26,6 +26,15 @@
                 "victorias": 0,
                 "derrotas": 0
             }
+        },
+        {
+            "usuario": "andres",
+            "password": "1234",
+            "estadisticas": {
+                "partidas_jugadas": 0,
+                "victorias": 0,
+                "derrotas": 0
+            }
         }
     ]
 }
