@@ -54,6 +54,7 @@ def jugar_partidas(nivel: int, niveles: dict):
     partida = 0
     puntos_nivel = 0
     reinicio = 0
+    comodin_usado = False
 
     rondas_mezcladas = niveles[nivel][:]
     random.shuffle(rondas_mezcladas)
@@ -66,15 +67,16 @@ def jugar_partidas(nivel: int, niveles: dict):
 
         print(f"\n--------------Partida {partida + 1}--------------")
 
-        lista_retornada = jugar_ronda(rondas_mezcladas[partida])
+        lista_retornada = jugar_ronda(rondas_mezcladas[partida], comodin_usado)
 
         salir = lista_retornada[0]
         error_en_ronda = lista_retornada[1]
         puntos_nivel += lista_retornada[2]
         tiempo_acabado = lista_retornada[3]
+        comodin_usado = lista_retornada[4]
 
         if salir:
-            return False
+            return None
 
         if tiempo_acabado or error_en_ronda == 1:
             reinicio += 1
@@ -100,7 +102,7 @@ def jugar_partidas(nivel: int, niveles: dict):
             return True
 
 
-def jugar_ronda(datos_partida):
+def jugar_ronda(datos_partida, comodin_usado):
     lista_datos_retornados = []
     tiempo_acabado = False
     puntos_totales = 0
@@ -110,8 +112,14 @@ def jugar_ronda(datos_partida):
 
     letras = datos_partida["letras"]
     palabras_validas = datos_partida["palabras"]
+    palabras_pendientes = set(palabras_validas) - set(lista_ingresos)
 
     inicio = time.time()
+
+    def revelar_palabra(pendientes):
+        if pendientes:
+            return list(pendientes)[0]
+        return None
 
     while True:
         tiempo_restante = calcular_tiempo(60, inicio)
@@ -131,6 +139,21 @@ def jugar_ronda(datos_partida):
 
         print(f"⏳ Tiempo restante: {tiempo_restante:.2f} segundos")
 
+        if palabra_ingresada == "comodin":
+            if comodin_usado:
+                print("⚠ Ya usaste el comodin.")
+                continue
+
+            palabra_revelar = revelar_palabra(palabras_pendientes)
+
+            if palabra_revelar:
+                print(f"✔ Palabra revelada: {palabra_revelar}")
+                palabras_pendientes.remove(palabra_revelar)
+                comodin_usado = True
+            else:
+                print("✖ No hay palabras pendientes para revelar.")
+            continue
+
         if palabra_ingresada == "salir":
             salir = True
             break
@@ -143,6 +166,7 @@ def jugar_ronda(datos_partida):
             print("✔ Palabra correcta!")
             lista_ingresos.append(palabra_ingresada)
             puntos_totales += cargar_puntuacion(palabra_ingresada)
+            palabras_pendientes = set(palabras_validas) - set(lista_ingresos)
         else:
             errores = 1
             print("✖ Palabra incorrecta! Vida perdida.")
@@ -153,5 +177,11 @@ def jugar_ronda(datos_partida):
             break
 
     print("-" * 40)
-    lista_datos_retornados += [salir, errores, puntos_totales, tiempo_acabado]
+    lista_datos_retornados += [
+        salir,
+        errores,
+        puntos_totales,
+        tiempo_acabado,
+        comodin_usado,
+    ]
     return lista_datos_retornados
